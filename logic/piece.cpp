@@ -1,8 +1,8 @@
 #include "piece.h"
 
-Piece::Piece()
+Piece::Piece(int color)
 {
-
+    setColor(color);
 }
 
 int Piece::getColor() const

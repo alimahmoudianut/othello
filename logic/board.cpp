@@ -1,4 +1,4 @@
-#include "board.h"
+#include "logic/board.h"
 
 #include <sstream>
 
@@ -17,6 +17,15 @@ Board::Board(unsigned int col, unsigned int row)
             myCells.push_back(c);
         }
     }
+
+    Piece *pD4 = new Piece(WHITE);
+    Piece *pD5 = new Piece(BLACK);
+    Piece *pE4 = new Piece(BLACK);
+    Piece *pE5 = new Piece(WHITE);
+    getCell(3, 3)->setPiece(pD4);
+    getCell(4, 3)->setPiece(pD5);
+    getCell(3, 4)->setPiece(pE4);
+    getCell(4, 4)->setPiece(pE5);
 }
 
 Cell *Board::getCell(int r, int c) const
@@ -38,6 +47,11 @@ unsigned int Board::getColNum() const
     return myColNum;
 }
 
+vector<Cell *> Board::getPossibleMovements(int color) const
+{
+
+}
+
 void Board::setRowNum(unsigned int n)
 {
     myRowNum = n;
@@ -55,7 +69,8 @@ std::string Board::printBoard() const
     {
         for(unsigned int j = 0; j < getColNum(); j++)
         {
-            out << getCell(i, j)->getLabel() << " ";
+            //out << getCell(i, j)->getLabel() << " ";
+            out << getCell(i, j)->getPieceSign() << " ";
         }
         out << std::endl;
     }

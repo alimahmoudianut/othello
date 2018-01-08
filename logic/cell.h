@@ -2,7 +2,7 @@
 #define CELL_H
 
 #include <string>
-#include "piece.h"
+#include "logic/piece.h"
 
 class Cell
 {
@@ -12,7 +12,8 @@ public:
     int getRowNum() const;
     int getColNum() const;
     std::string getLabel() const;
-    Piece *getPiece();
+    std::string getPieceSign() const;
+    Piece *getPiece() const;
 
     void setRowNum(const int r);
     void setColNum(const int c);

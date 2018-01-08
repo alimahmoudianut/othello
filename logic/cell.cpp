@@ -1,5 +1,5 @@
-#include "cell.h"
-#include "piece.h"
+#include "logic/cell.h"
+#include "logic/piece.h"
 #include <string>
 #include <sstream>
 
@@ -7,6 +7,7 @@ Cell::Cell(int r, int c)
 {
     setRowNum(r);
     setColNum(c);
+    setPiece(NULL);
 }
 
 int Cell::getRowNum() const
@@ -30,9 +31,20 @@ std::string Cell::getLabel() const
     return label.str();
 }
 
-Piece *Cell::getPiece()
+std::string Cell::getPieceSign() const
 {
-    return getPiece();
+    if(getPiece() == NULL)
+        return ".";
+    if(getPiece()->getColor() == WHITE)
+        return "O";
+    else if(getPiece()->getColor() == BLACK)
+        return "X";
+    return " ";
+}
+
+Piece *Cell::getPiece() const
+{
+    return myPiece;
 }
 
 void Cell::setRowNum(const int r)

@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "cell.h"
+#include "logic/cell.h"
 
 class Board
 {
@@ -13,6 +13,7 @@ public:
     Cell *getCell(int r, int c) const;
     unsigned int getRowNum() const;
     unsigned int getColNum() const;
+    vector<Cell*> getPossibleMovements(int color) const;
 
     void setRowNum(unsigned int n);
     void setColNum(unsigned int n);
