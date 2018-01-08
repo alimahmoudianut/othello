@@ -7,23 +7,23 @@
 class Cell
 {
 public:
-    Cell(int x, int y);
+    Cell(int r, int c);
 
-    int getAxisX() const;
-    int getAxisY() const;
+    int getRowNum() const;
+    int getColNum() const;
     std::string getLabel() const;
     Piece *getPiece();
 
-    void setAxisX(const int x);
-    void setAxisY(const int y);
+    void setRowNum(const int r);
+    void setColNum(const int c);
     void setPiece(Piece *piece);
 
     std::string toString() const;
     std::string deepToString() const;
 
 private:
-    int myAxisX;
-    int myAxisY;
+    int myRowNum;
+    int myColNum;
     Piece *myPiece;
 };
 
