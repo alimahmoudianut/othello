@@ -1,0 +1,2 @@
+# othello
+Othello is the practical part of a course on learning Advanced Computer Programming, held in Tehran University, fall 2017. Our goal in this project is to use Object-Oriented programming, while exploring different features of C++ language including Graphical Interface and Network Communication. We are also supposed to collaborate with each other using Git as a distributed version control system.
