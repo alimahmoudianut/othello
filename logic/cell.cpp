@@ -62,6 +62,13 @@ void Cell::setPiece(Piece *piece)
     myPiece = piece;
 }
 
+bool Cell::isEmpty()
+{
+    if(getPiece() == NULL)
+        return true;
+    return false;
+}
+
 std::string Cell::toString() const
 {
     std::stringstream out;

@@ -13,7 +13,15 @@ public:
     Cell *getCell(int r, int c) const;
     unsigned int getRowNum() const;
     unsigned int getColNum() const;
-    vector<Cell*> getPossibleMovements(int color) const;
+    std::vector<Cell *> getAllPossibleMovements(int color) const;\
+    std::vector<Cell *> getCellsByPieceColor(int color) const;
+    std::vector<Cell *> getCellsBetweenInLine(Cell *c1, Cell *c2) const;
+    int getDistanceBetweenInLine(Cell *c1, Cell *c2) const;
+
+
+    bool isPossibleMovement(Cell *c, int color) const;
+    bool isInOneLine(Cell *c1, Cell *c2) const;
+
 
     void setRowNum(unsigned int n);
     void setColNum(unsigned int n);
@@ -21,7 +29,10 @@ public:
     std::string printBoard() const;
 
 private:
-    std::vector<Cell*> myCells;
+    static unsigned int maxi(unsigned int a, unsigned int b);
+    static unsigned int mini(unsigned int a, unsigned int b);
+
+    std::vector<Cell *> myCells;
     unsigned int myRowNum;
     unsigned int myColNum;
 

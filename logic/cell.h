@@ -19,6 +19,8 @@ public:
     void setColNum(const int c);
     void setPiece(Piece *piece);
 
+    bool isEmpty();
+
     std::string toString() const;
     std::string deepToString() const;
 
