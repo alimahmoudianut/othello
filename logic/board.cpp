@@ -26,10 +26,6 @@ Board::Board(unsigned int col, unsigned int row)
     getCell(4, 3)->setPiece(pD5);
     getCell(3, 4)->setPiece(pE4);
     getCell(4, 4)->setPiece(pE5);
-
-    std::vector<Cell *> mvs = getAllPossibleMovements(BLACK);
-    for(unsigned int i = 0; i < mvs.size(); i++)
-        std::cout << mvs[i]->toString();
 }
 
 Cell *Board::getCell(int r, int c) const
@@ -182,7 +178,39 @@ void Board::setColNum(unsigned int n)
     myColNum = n;
 }
 
-std::string Board::printBoard() const
+int Board::addMovement(int row, int col, int color)
+{
+    Cell *c = getCell(row, col);
+    if(c->isEmpty() == false)
+    {
+        std::cout << c->toString() << " is not empty. " << std::endl;
+        return -1;
+    }
+    Piece *p = new Piece(color);
+    c->setPiece(p);
+    return 0;
+}
+
+std::string Board::deepToString() const
+{
+    std::stringstream out;
+    out << "Board: " << std::endl;
+    out << toString();
+    out << "White Possible Movements:" << std::endl;
+
+    std::vector<Cell *> wmvs = getAllPossibleMovements(WHITE);
+    for(unsigned int i = 0; i < wmvs.size(); i++)
+        out << "-->" << wmvs[i]->toString();
+
+    out << "Black Possible Movements:" << std::endl;
+    std::vector<Cell *> bmvs = getAllPossibleMovements(BLACK);
+    for(unsigned int i = 0; i < bmvs.size(); i++)
+        out << "-->" << bmvs[i]->toString();
+
+    return out.str();
+}
+
+std::string Board::toString() const
 {
     std::stringstream out;
     for(unsigned int i = 0; i < getRowNum(); i++)

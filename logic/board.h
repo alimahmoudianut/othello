@@ -22,11 +22,12 @@ public:
     bool isPossibleMovement(Cell *c, int color) const;
     bool isInOneLine(Cell *c1, Cell *c2) const;
 
-
     void setRowNum(unsigned int n);
     void setColNum(unsigned int n);
+    int addMovement(int row, int col, int color);
 
-    std::string printBoard() const;
+    std::string toString() const;
+    std::string deepToString() const;
 
 private:
     static unsigned int maxi(unsigned int a, unsigned int b);
