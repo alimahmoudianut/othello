@@ -153,9 +153,6 @@ bool Board::isPossibleMovement(Cell *c, int color) const
     std::vector<Cell *> sameColorPieces = getCellsByPieceColor(color);
     for(unsigned int i = 0; i < sameColorPieces.size(); i++)
     {
-        std::cout << "--------------------------------------------" << std::endl;
-        std::cout << "***" << c->toString() << std::endl;
-
         Cell *c1 = sameColorPieces[i];
         if(c1 == c)
             continue;
@@ -165,7 +162,6 @@ bool Board::isPossibleMovement(Cell *c, int color) const
             int jump = true;
             for(unsigned int j = 0; j < piecesBetween.size(); j++)
             {
-                std::cout << "  -" << piecesBetween[j]->toString() << std::endl;
                 if(piecesBetween[j]->isEmpty() == true)
                 {
                     jump = false;
@@ -179,12 +175,9 @@ bool Board::isPossibleMovement(Cell *c, int color) const
             }
             if(jump == true)
             {
-                std::cout << "!!!" << c1->toString() << std::endl;
                 return true;
             }
         }
-        std::cout << "***" << c1->toString() << std::endl;
-
     }
     return false;
 }
