@@ -1,14 +1,12 @@
 #include <QCoreApplication>
-#include <QDebug>
-#include "logic/cell.h"
+#include "logic/board.h"
 #include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    qDebug() << "We have launched our project.";
-    Cell *c1 = new Cell(2, 3);
-    cout << c1->toString();
+    Board b(8, 8);
+    cout << b.printBoard();
     return a.exec();
 }

@@ -3,26 +3,26 @@
 #include <string>
 #include <sstream>
 
-Cell::Cell(int x, int y)
+Cell::Cell(int r, int c)
 {
-    setAxisX(x);
-    setAxisY(y);
+    setRowNum(r);
+    setColNum(c);
 }
 
-int Cell::getAxisX() const
+int Cell::getRowNum() const
 {
-    return myAxisX;
+    return myRowNum;
 }
 
-int Cell::getAxisY() const
+int Cell::getColNum() const
 {
-    return myAxisY;
+    return myColNum;
 }
 
 std::string Cell::getLabel() const
 {
-    char col = getAxisX() + 'A';
-    int row = getAxisY() + 1;
+    char col = getColNum() + 'A';
+    int row = getRowNum() + 1;
 
     std::stringstream label;
     label << col << row;
@@ -35,14 +35,14 @@ Piece *Cell::getPiece()
     return getPiece();
 }
 
-void Cell::setAxisX(const int x)
+void Cell::setRowNum(const int r)
 {
-    myAxisX = x;
+    myRowNum = r;
 }
 
-void Cell::setAxisY(const int y)
+void Cell::setColNum(const int c)
 {
-    myAxisY = y;
+    myColNum = c;
 }
 
 void Cell::setPiece(Piece *piece)
@@ -53,7 +53,7 @@ void Cell::setPiece(Piece *piece)
 std::string Cell::toString() const
 {
     std::stringstream out;
-    out << "Cell(" << getAxisX() << ", " << getAxisY() << ", " << getLabel() << ")" << std::endl;
+    out << "Cell(" << getRowNum() << ", " << getColNum() << ", " << getLabel() << ")" << std::endl;
     return out.str();
 }
 
