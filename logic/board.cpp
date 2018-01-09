@@ -100,10 +100,35 @@ std::vector<Cell *> Board::getCellsBetweenInLine(Cell *c1, Cell *c2) const
     else if(abs(c1->getRowNum() - c2->getRowNum())
             == abs(c1->getColNum() - c2->getColNum()))
     {
-        unsigned int i = mini(c1->getRowNum(), c2->getRowNum()) + 1;
-        unsigned int j = mini(c1->getColNum(), c2->getColNum()) + 1;
-        for(; i < maxi(c1->getRowNum(), c2->getRowNum()) && j < maxi(c1->getColNum(), c2->getColNum()); i++, j++)
+        unsigned int i;
+        unsigned int j;
+        int diff;
+
+        if(c1->getRowNum() < c2->getRowNum())
+        {
+            i = c1->getRowNum() + 1;
+            j = c1->getColNum();
+            if(c1->getColNum() < c2->getColNum())
+                diff = 1;
+            else
+                diff = -1;
+        }
+        else
+        {
+            i = c2->getRowNum() + 1;
+            j = c2->getColNum();
+            if(c2->getColNum() < c1->getColNum())
+                diff = 1;
+            else
+                diff = -1;
+        }
+
+        j+= diff;
+
+        for(; i < maxi(c1->getRowNum(), c2->getRowNum()); i++, j+=diff)
+        {
             res.push_back(getCell(i, j));
+        }
     }
     return res;
 }
@@ -128,6 +153,9 @@ bool Board::isPossibleMovement(Cell *c, int color) const
     std::vector<Cell *> sameColorPieces = getCellsByPieceColor(color);
     for(unsigned int i = 0; i < sameColorPieces.size(); i++)
     {
+        std::cout << "--------------------------------------------" << std::endl;
+        std::cout << "***" << c->toString() << std::endl;
+
         Cell *c1 = sameColorPieces[i];
         if(c1 == c)
             continue;
@@ -137,6 +165,7 @@ bool Board::isPossibleMovement(Cell *c, int color) const
             int jump = true;
             for(unsigned int j = 0; j < piecesBetween.size(); j++)
             {
+                std::cout << "  -" << piecesBetween[j]->toString() << std::endl;
                 if(piecesBetween[j]->isEmpty() == true)
                 {
                     jump = false;
@@ -149,8 +178,12 @@ bool Board::isPossibleMovement(Cell *c, int color) const
                 }
             }
             if(jump == true)
+            {
+                std::cout << "!!!" << c1->toString() << std::endl;
                 return true;
+            }
         }
+        std::cout << "***" << c1->toString() << std::endl;
 
     }
     return false;
