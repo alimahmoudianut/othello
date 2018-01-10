@@ -207,15 +207,18 @@ void Board::setColNum(unsigned int n)
 
 int Board::addMovement(int row, int col, int color)
 {
-    Cell *c = getCell(row, col);
-    if(c->isEmpty() == false)
+    std::vector<Cell *> mvs = getAllPossibleMovements(color);
+    for(unsigned int i = 0; i < mvs.size(); i++)
     {
-        std::cout << c->toString() << " is not empty. " << std::endl;
-        return -1;
+        Cell *c = mvs[i];
+        if(c->getColNum() == col && c->getRowNum() == row)
+        {
+            Piece *p = new Piece(color);
+            c->setPiece(p);
+            return 0;
+        }
     }
-    Piece *p = new Piece(color);
-    c->setPiece(p);
-    return 0;
+    return -1;
 }
 
 std::string Board::deepToString() const
