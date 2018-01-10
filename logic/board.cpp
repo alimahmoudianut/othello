@@ -18,6 +18,7 @@ Board::Board(unsigned int col, unsigned int row)
         }
     }
 
+    // Add central pieces ...
     Piece *pD4 = new Piece(WHITE);
     Piece *pD5 = new Piece(BLACK);
     Piece *pE4 = new Piece(BLACK);
