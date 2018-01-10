@@ -155,30 +155,8 @@ bool Board::isPossibleMovement(Cell *c, int color) const
     for(unsigned int i = 0; i < sameColorPieces.size(); i++)
     {
         Cell *c1 = sameColorPieces[i];
-        if(c1 == c)
-            continue;
-        std::vector<Cell *> piecesBetween = getCellsBetweenInLine(c, c1);
-        if(piecesBetween.size() > 0)
-        {
-            int jump = true;
-            for(unsigned int j = 0; j < piecesBetween.size(); j++)
-            {
-                if(piecesBetween[j]->isEmpty() == true)
-                {
-                    jump = false;
-                    break;
-                }
-                else if(piecesBetween[j]->getPiece()->getColor() == color)
-                {
-                    jump = false;
-                    break;
-                }
-            }
-            if(jump == true)
-            {
-                return true;
-            }
-        }
+        if(isJump(c1, c, color) == true)
+            return true;
     }
     return false;
 }
@@ -195,6 +173,38 @@ bool Board::isInOneLine(Cell *c1, Cell *c2) const
     return false;
 }
 
+bool Board::isJump(Cell *c1, Cell *c2, int color) const
+{
+    if(c1 == c2)
+        return false;
+    std::vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
+    if(cellsBetween.size() == 0)
+        return false;
+    else
+    {
+        for(unsigned int j = 0; j < cellsBetween.size(); j++)
+        {
+            if(cellsBetween[j]->isEmpty() == true)
+                return false;
+            else if(cellsBetween[j]->getPiece()->getColor() == color)
+                return false;
+        }
+    }
+    return true;
+}
+
+int Board::makeJump(Cell *c1, Cell *c2, int color)
+{
+    if(isJump(c1, c2, color) == false)
+        return 0;
+    std::vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
+    for(unsigned int j = 0; j < cellsBetween.size(); j++)
+    {
+        cellsBetween[j]->getPiece()->flipColor();
+    }
+    return cellsBetween.size();
+}
+
 void Board::setRowNum(unsigned int n)
 {
     myRowNum = n;
@@ -207,16 +217,13 @@ void Board::setColNum(unsigned int n)
 
 int Board::addMovement(int row, int col, int color)
 {
-    std::vector<Cell *> mvs = getAllPossibleMovements(color);
-    for(unsigned int i = 0; i < mvs.size(); i++)
+   Cell *c = getCell(row, col);
+    if(isPossibleMovement(c, color))
     {
-        Cell *c = mvs[i];
-        if(c->getColNum() == col && c->getRowNum() == row)
-        {
-            Piece *p = new Piece(color);
-            c->setPiece(p);
-            return 0;
-        }
+        Piece *p = new Piece(color);
+        c->setPiece(p);
+        addMovementUpdates(c, color);
+        return 0;
     }
     return -1;
 }
@@ -240,11 +247,26 @@ std::string Board::deepToString() const
     return out.str();
 }
 
+int Board::addMovementUpdates(Cell *c, int color)
+{
+    int ret = 0;
+    std::vector<Cell *> sameColorPieces = getCellsByPieceColor(color);
+    for(unsigned int i = 0; i < sameColorPieces.size(); i++)
+    {
+        Cell *c1 = sameColorPieces[i];
+        if(isJump(c1, c, color) == true)
+            ret += makeJump(c1, c, color);
+    }
+    return ret;
+}
+
 std::string Board::toString() const
 {
     std::stringstream out;
+    out << "    A B C D E F G H" << std::endl << std::endl;
     for(unsigned int i = 0; i < getRowNum(); i++)
     {
+        out << i+1 << "   ";
         for(unsigned int j = 0; j < getColNum(); j++)
         {
             //out << getCell(i, j)->getLabel() << " ";

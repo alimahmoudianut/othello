@@ -18,9 +18,10 @@ public:
     std::vector<Cell *> getCellsBetweenInLine(Cell *c1, Cell *c2) const;
     int getDistanceBetweenInLine(Cell *c1, Cell *c2) const;
 
-
     bool isPossibleMovement(Cell *c, int color) const;
     bool isInOneLine(Cell *c1, Cell *c2) const;
+    bool isJump(Cell *c1, Cell *c2, int color) const;
+    int makeJump(Cell *c1, Cell *c2, int color);
 
     void setRowNum(unsigned int n);
     void setColNum(unsigned int n);
@@ -30,6 +31,9 @@ public:
     std::string deepToString() const;
 
 private:
+    int addMovementUpdates(Cell *c, int color);
+
+
     static unsigned int maxi(unsigned int a, unsigned int b);
     static unsigned int mini(unsigned int a, unsigned int b);
 
