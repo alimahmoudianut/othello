@@ -1,14 +1,14 @@
-// mythread.cpp
+// network/serverconnection.cpp
 
-#include "mythread.h"
+#include "network/serverconnection.h"
 
-MyThread::MyThread(qintptr ID, QObject *parent) :
+ServerConnection::ServerConnection(qintptr ID, QObject *parent) :
     QThread(parent)
 {
     this->socketDescriptor = ID;
 }
 
-void MyThread::run()
+void ServerConnection::run()
 {
     // thread starts here
     qDebug() << " Thread started";
@@ -40,7 +40,7 @@ void MyThread::run()
     exec();
 }
 
-void MyThread::readyRead()
+void ServerConnection::readyRead()
 {
     // get the information
     QByteArray Data = socket->readAll();
@@ -51,7 +51,7 @@ void MyThread::readyRead()
     socket->write(Data);
 }
 
-void MyThread::disconnected()
+void ServerConnection::disconnected()
 {
     qDebug() << socketDescriptor << " Disconnected";
 

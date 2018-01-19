@@ -1,14 +1,14 @@
-// myserver.cpp
+// network/serverterminal.cpp
 
-#include "myserver.h"
-#include "mythread.h"
+#include "network/serverterminal.h"
+#include "network/serverconnection.h"
 
-MyServer::MyServer(QObject *parent) :
+ServerTerminal::ServerTerminal(QObject *parent) :
     QTcpServer(parent)
 {
 }
 
-void MyServer::startServer()
+void ServerTerminal::startServer()
 {
     int port = 1234;
 
@@ -22,12 +22,12 @@ void MyServer::startServer()
     }
 }
 
-void MyServer::incomingConnection(qintptr socketDescriptor)
+void ServerTerminal::incomingConnection(qintptr socketDescriptor)
 {
     // We have a new connection
     qDebug() << socketDescriptor << " Connecting...";
 
-    MyThread *thread = new MyThread(socketDescriptor, this);
+    ServerConnection *thread = new ServerConnection(socketDescriptor, this);
 
     // connect signal/slot
     // once a thread is not needed, it will be beleted later

@@ -2,12 +2,14 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include "logic/game.h"
-#include "logic/myserver.h"
+#include "network/serverterminal.h"
 #include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+    ServerTerminal server;
+
     QCoreApplication a(argc, argv);
 
     QCommandLineParser *parser = new QCommandLineParser();
@@ -23,14 +25,15 @@ int main(int argc, char *argv[])
 
     QString typeStr = parser->value(typeOpt);
 
+
+
+
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
 
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {
-        // Make a server and starts it
-        MyServer server;
         server.startServer();
     }
     else

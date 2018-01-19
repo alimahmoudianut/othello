@@ -1,17 +1,17 @@
-// mythread.h
+// network/serverconnection.h
 
-#ifndef MYTHREAD_H
-#define MYTHREAD_H
+#ifndef SERVERCONNECTION_H
+#define SERVERCONNECTION_H
 
 #include <QThread>
 #include <QTcpSocket>
 #include <QDebug>
 
-class MyThread : public QThread
+class ServerConnection : public QThread
 {
     Q_OBJECT
 public:
-    explicit MyThread(qintptr ID, QObject *parent = 0);
+    explicit ServerConnection(qintptr ID, QObject *parent = 0);
 
     void run();
 
@@ -27,4 +27,4 @@ private:
     qintptr socketDescriptor;
 };
 
-#endif // MYTHREAD_H
+#endif // SERVERCONNECTION_H
