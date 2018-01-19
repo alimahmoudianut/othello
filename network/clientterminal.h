@@ -6,6 +6,11 @@
 #include <QAbstractSocket>
 #include <QDebug>
 
+#define GAME_STATUS_IS_PLAYING 0
+#define GAME_STATUS_IS_IDLE 1
+#define GAME_STATUS_IS_WATCHING 2
+
+
 class ClientTerminal : public QObject
 {
     Q_OBJECT
@@ -23,8 +28,8 @@ public slots:
     void readyRead();
 
 private:
-    QTcpSocket *socket;
-
+    QTcpSocket *mySocket;
+    int myGameStatus;
 };
 
-#endif // MYTCPSOCKET_H
+#endif // CLIENT_TERMINAL_H

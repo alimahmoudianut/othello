@@ -1,25 +1,31 @@
 // network/serverconnection.cpp
 
 #include "network/serverconnection.h"
+#include <iostream>
+#include <sstream>
+using namespace std;
+
+vector<Game *> ServerConnection::ourGames;
 
 ServerConnection::ServerConnection(qintptr ID, QObject *parent) :
     QThread(parent)
 {
-    this->socketDescriptor = ID;
+    this->mySocketDescriptor = ID;
+    this->myGameStatus = STATUS_IS_IDLE;
 }
 
 void ServerConnection::run()
 {
     // thread starts here
-    qDebug() << " Thread started";
+    cout << " Thread started" << endl;
 
-    socket = new QTcpSocket();
+    mySocket = new QTcpSocket();
 
     // set the ID
-    if(!socket->setSocketDescriptor(this->socketDescriptor))
+    if(!mySocket->setSocketDescriptor(this->mySocketDescriptor))
     {
         // something's wrong, we just emit a signal
-        emit error(socket->error());
+        emit error(mySocket->error());
         return;
     }
 
@@ -27,11 +33,11 @@ void ServerConnection::run()
     // note - Qt::DirectConnection is used because it's multithreaded
     //        This makes the slot to be invoked immediately, when the signal is emitted.
 
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(mySocket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
+    connect(mySocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
 
     // We'll have multiple clients, we want to know which is which
-    qDebug() << socketDescriptor << " Client connected";
+    cout << mySocketDescriptor << " Client connected" << endl;
 
     // make this thread a loop,
     // thread will stay alive so that signal/slot to function properly
@@ -40,22 +46,57 @@ void ServerConnection::run()
     exec();
 }
 
+string ServerConnection::toString() const
+{
+    stringstream out;
+    out << "Server Connection #" << mySocketDescriptor << endl;
+    out << "player name : " << myPlayerName << endl;
+    return out.str();
+}
+
 void ServerConnection::readyRead()
 {
     // get the information
-    QByteArray Data = socket->readAll();
+    QByteArray data = mySocket->readAll();
 
     // will write on server side window
-    qDebug() << socketDescriptor << " Data in: " << Data;
+    cout << mySocketDescriptor << " Data in: " << data.toStdString() << endl;
 
-    socket->write(Data);
+    mySocket->write(data);
+
+    stringstream ss(data.toStdString());
+    string cmd;
+    ss >> cmd;
+
+    if(cmd == "PLAYER")
+    {
+        string playerName;
+        ss >> playerName;
+        myPlayerName = playerName;
+        cout << this->toString() << endl;
+    }
+    else if(cmd == "NEWGAME")
+    {
+        if(this->myGameStatus == STATUS_IS_IDLE)
+        {
+            Game *g = new Game();
+            ourGames.push_back(g);
+        }
+    }
+    else if(cmd == "LISTGAME")
+    {
+        for(unsigned int i = 0; i < ourGames.size(); i++)
+        {
+            cout << ourGames[i]->toDeepString() << endl;
+        }
+    }
 }
 
 void ServerConnection::disconnected()
 {
-    qDebug() << socketDescriptor << " Disconnected";
+    cout << mySocketDescriptor << " Disconnected";
 
 
-    socket->deleteLater();
+    mySocket->deleteLater();
     exit(0);
 }

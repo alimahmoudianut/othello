@@ -5,7 +5,16 @@
 
 #include <QThread>
 #include <QTcpSocket>
+#include <string>
 #include <QDebug>
+#include "logic/game.h"
+#include <vector>
+using namespace std;
+
+#define STATUS_IS_PLAYING 0
+#define STATUS_IS_WATCHING 1
+#define STATUS_IS_IDLE 2
+
 
 class ServerConnection : public QThread
 {
@@ -15,6 +24,8 @@ public:
 
     void run();
 
+    string toString() const;
+
 signals:
     void error(QTcpSocket::SocketError socketerror);
 
@@ -23,8 +34,12 @@ public slots:
     void disconnected();
 
 private:
-    QTcpSocket *socket;
-    qintptr socketDescriptor;
+    QTcpSocket *mySocket;
+    qintptr mySocketDescriptor;
+    string myPlayerName;
+    int myGameStatus;
+
+    static vector<Game *> ourGames;
 };
 
 #endif // SERVERCONNECTION_H
