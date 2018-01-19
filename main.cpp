@@ -3,12 +3,14 @@
 #include <QCommandLineParser>
 #include "logic/game.h"
 #include "network/serverterminal.h"
+#include "network/clientterminal.h"
 #include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[])
 {
     ServerTerminal server;
+    ClientTerminal s;
 
     QCoreApplication a(argc, argv);
 
@@ -30,7 +32,7 @@ int main(int argc, char *argv[])
 
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
-
+        s.doConnect();
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {
