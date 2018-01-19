@@ -2,6 +2,7 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include "logic/game.h"
+#include "logic/myserver.h"
 #include <iostream>
 using namespace std;
 
@@ -24,13 +25,13 @@ int main(int argc, char *argv[])
 
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
-        Game *g = new Game(TERMINAL_CLIENT);
-        g->start();
+
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {
-        Game *g = new Game(TERMINAL_SERVER);
-        g->start();
+        // Make a server and starts it
+        MyServer server;
+        server.startServer();
     }
     else
     {
