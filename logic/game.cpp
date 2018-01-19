@@ -1,10 +1,23 @@
 #include "game.h"
+#include <iostream>
+using namespace std;
 
-Game::Game()
+Game::Game(int type)
 {
-    myBoard = new Board(8, 8);
-    myFirstPlayer = new HumanPlayer(WHITE);
-    mySecondPlayer = new HumanPlayer(BLACK);
+    if(type == TERMINAL_OFFLINE)
+    {
+        myBoard = new Board(8, 8);
+        myFirstPlayer = new HumanPlayer(WHITE);
+        mySecondPlayer = new HumanPlayer(BLACK);
+    }
+    else if(type == TERMINAL_CLIENT)
+    {
+        cout << "Start Client Terminal" << endl;
+    }
+    else if(type == TERMINAL_SERVER)
+    {
+        cout << "Start Server Terminal" << endl;
+    }
 }
 
 void Game::start()
