@@ -1,8 +1,8 @@
 #include "humanplayer.h"
 #include <iostream>
 
-HumanPlayer::HumanPlayer(int color)
-    :Player(color)
+HumanPlayer::HumanPlayer(int color, string name)
+    :Player(color, name)
 {
 
 }

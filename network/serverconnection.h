@@ -8,6 +8,7 @@
 #include <string>
 #include <QDebug>
 #include "logic/game.h"
+#include "logic/player/clientplayer.h"
 #include <vector>
 using namespace std;
 
@@ -34,10 +35,10 @@ public slots:
     void disconnected();
 
 private:
-    QTcpSocket *mySocket;
-    qintptr mySocketDescriptor;
-    string myPlayerName;
-    int myGameStatus;
+    QTcpSocket    * mySocket;
+    qintptr         mySocketDescriptor;
+    Player        * myPlayer;
+    int             myGameStatus;
 
     static vector<Game *> ourGames;
 };

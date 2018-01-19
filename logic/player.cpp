@@ -1,8 +1,10 @@
 #include "player.h"
+#include <sstream>
+using namespace std;
 
 int Player::ourCnt = 0;
 
-Player::Player(int color)
+Player::Player(int color, string name)
     : myID(ourCnt++)
 {
     setColor(color);
@@ -30,4 +32,11 @@ int Player::getID() const
 void Player::setColor(int color)
 {
     myColor = color;
+}
+
+string Player::toString() const
+{
+    stringstream out;
+    out << "PLAYER " << myID << endl;
+    return out.str();
 }

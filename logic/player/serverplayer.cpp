@@ -1,6 +1,12 @@
 #include "serverplayer.h"
 
-ServerPlayer::ServerPlayer()
+ServerPlayer::ServerPlayer(int color, string name)
+    :Player(color , name)
+{
+
+}
+
+void ServerPlayer::play(Board *board)
 {
 
 }

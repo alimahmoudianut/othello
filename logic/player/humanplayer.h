@@ -6,7 +6,7 @@
 class HumanPlayer : public Player
 {
 public:
-    HumanPlayer(int color);
+    HumanPlayer(int color, string name);
 
     void play(Board *board);
 };

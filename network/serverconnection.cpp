@@ -50,7 +50,7 @@ string ServerConnection::toString() const
 {
     stringstream out;
     out << "Server Connection #" << mySocketDescriptor << endl;
-    out << "player name : " << myPlayerName << endl;
+    out << myPlayer->toString() << endl;
     return out.str();
 }
 
@@ -62,7 +62,7 @@ void ServerConnection::readyRead()
     // will write on server side window
     cout << mySocketDescriptor << " Data in: " << data.toStdString() << endl;
 
-    mySocket->write(data);
+
 
     stringstream ss(data.toStdString());
     string cmd;
@@ -72,22 +72,24 @@ void ServerConnection::readyRead()
     {
         string playerName;
         ss >> playerName;
-        myPlayerName = playerName;
-        cout << this->toString() << endl;
+        myPlayer = new ClientPlayer(WHITE, playerName);
+        mySocket->write(myPlayer->toString().c_str());
     }
     else if(cmd == "NEWGAME")
     {
         if(this->myGameStatus == STATUS_IS_IDLE)
         {
             Game *g = new Game();
+            cout << g->toDeepString() << endl;
             ourGames.push_back(g);
         }
+        mySocket->write("GAME 1");
     }
     else if(cmd == "LISTGAME")
     {
         for(unsigned int i = 0; i < ourGames.size(); i++)
         {
-            cout << ourGames[i]->toDeepString() << endl;
+            mySocket->write(ourGames[i]->toString().c_str());
         }
     }
 }

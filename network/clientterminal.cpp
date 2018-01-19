@@ -1,4 +1,7 @@
 #include "network/clientterminal.h"
+#include <string>
+#include <iostream>
+using namespace std;
 
 ClientTerminal::ClientTerminal(QObject *parent) :
     QObject(parent)
@@ -50,14 +53,23 @@ void ClientTerminal::readyRead()
     // read the data from the socket
     qDebug() << mySocket->readAll();
 
-    if(myGameStatus == GAME_STATUS_IS_IDLE)
+    string cmd;
+    cin >> cmd;
+
+    if(cmd == "NEWGAME")
     {
-        myGameStatus = GAME_STATUS_IS_PLAYING;
-        mySocket->write("NEWGAME");
+        if(myGameStatus == GAME_STATUS_IS_IDLE)
+        {
+            myGameStatus = GAME_STATUS_IS_PLAYING;
+            mySocket->write("NEWGAME");
+        }
     }
-    else if(myGameStatus == GAME_STATUS_IS_PLAYING)
+    else if(cmd == "LISTGAME")
     {
-        myGameStatus = GAME_STATUS_IS_WATCHING;
         mySocket->write("LISTGAME");
+    }
+    else if(cmd == "CONNECT")
+    {
+        mySocket->write("CONNECT");
     }
 }

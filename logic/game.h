@@ -17,15 +17,18 @@ public:
     Game(int type = TERMINAL_OFFLINE);
 
     void start();
+    void setFirstPlayer(Player *firstPlayer);
+    void setSecondPlayer(Player *secondPlayer);
 
+    string toString() const;
     string toDeepString() const;
 
 private:
     Board *myBoard;
     Player *myFirstPlayer;
     Player *mySecondPlayer;
-    int myID;
 
+    int myID;
     static int ourCnt;
 
 };
