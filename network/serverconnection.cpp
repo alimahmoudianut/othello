@@ -12,6 +12,7 @@ ServerConnection::ServerConnection(qintptr ID, QObject *parent) :
 {
     this->mySocketDescriptor = ID;
     this->myGameStatus = STATUS_IS_IDLE;
+    myPlayer = NULL;
 }
 
 void ServerConnection::run()
@@ -38,10 +39,6 @@ void ServerConnection::run()
 
     // We'll have multiple clients, we want to know which is which
     cout << mySocketDescriptor << " Client connected" << endl;
-
-    // make this thread a loop,
-    // thread will stay alive so that signal/slot to function properly
-    // not dropped out in the middle when thread dies
 
     exec();
 }
@@ -73,13 +70,15 @@ void ServerConnection::readyRead()
         string playerName;
         ss >> playerName;
         myPlayer = new ClientPlayer(WHITE, playerName);
+        cout << myPlayer->deepToString(1);
         mySocket->write(myPlayer->toString().c_str());
     }
     else if(cmd == "NEWGAME")
     {
         if(this->myGameStatus == STATUS_IS_IDLE)
         {
-            Game *g = new Game();
+            Game *g = new Game(TERMINAL_SERVER);
+            g->setFirstPlayer(myPlayer);
             cout << g->deepToString() << endl;
             ourGames.push_back(g);
             mySocket->write(g->toString().c_str());
@@ -117,7 +116,7 @@ int ServerConnection::importIntoGame(int gameID)
 {
     for(unsigned int i = 0; i < ourGames.size(); i++)
     {
-        if(ourGames[i]->getID() == gameID)
+        if(ourGames[i]->getID() == gameID && ourGames[i]->getFirstPlayer() != myPlayer)
         {
             ourGames[i]->setSecondPlayer(myPlayer);
             return 0;

@@ -18,10 +18,16 @@ Game::Game(int type)
     else if(type == TERMINAL_CLIENT)
     {
         cout << "Start Client Terminal" << endl;
+        myBoard = new Board(8, 8);
+        myFirstPlayer = NULL;
+        mySecondPlayer = NULL;
     }
     else if(type == TERMINAL_SERVER)
     {
         cout << "Start Server Terminal" << endl;
+        myBoard = new Board(8, 8);
+        myFirstPlayer = NULL;
+        mySecondPlayer = NULL;
     }
 }
 
@@ -44,6 +50,16 @@ void Game::setFirstPlayer(Player *firstPlayer)
 void Game::setSecondPlayer(Player *secondPlayer)
 {
     mySecondPlayer = secondPlayer;
+}
+
+Player *Game::getFirstPlayer() const
+{
+    return myFirstPlayer;
+}
+
+Player *Game::getSecondPlayer() const
+{
+    return mySecondPlayer;
 }
 
 string Game::toString() const

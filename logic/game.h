@@ -20,6 +20,9 @@ public:
     void setFirstPlayer(Player *firstPlayer);
     void setSecondPlayer(Player *secondPlayer);
 
+    Player *getFirstPlayer() const;
+    Player *getSecondPlayer() const;
+
     string toString() const;
     string deepToString() const;
 
