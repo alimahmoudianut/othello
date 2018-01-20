@@ -17,6 +17,7 @@ public:
     std::vector<Cell *> getCellsByPieceColor(int color) const;
     std::vector<Cell *> getCellsBetweenInLine(Cell *c1, Cell *c2) const;
     int getDistanceBetweenInLine(Cell *c1, Cell *c2) const;
+    int getPoint(int color) const;
 
     bool isPossibleMovement(Cell *c, int color) const;
     bool isInOneLine(Cell *c1, Cell *c2) const;
@@ -32,6 +33,7 @@ public:
 
 private:
     int addMovementUpdates(Cell *c, int color);
+    std::string getAllPossibleMovementsStr(int color) const;\
 
 
     static unsigned int maxi(unsigned int a, unsigned int b);

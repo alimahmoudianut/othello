@@ -1,6 +1,9 @@
 #include "logic/board.h"
 #include <iostream>
 #include <sstream>
+#include <iomanip>
+using namespace std;
+
 
 Board::Board(unsigned int col, unsigned int row)
 {
@@ -48,9 +51,9 @@ unsigned int Board::getColNum() const
     return myColNum;
 }
 
-std::vector<Cell *> Board::getAllPossibleMovements(int color) const
+vector<Cell *> Board::getAllPossibleMovements(int color) const
 {
-    std::vector<Cell *> res;
+    vector<Cell *> res;
     for(unsigned int i = 0; i < getRowNum(); i++)
     {
         for(unsigned int j = 0; j < getColNum(); j++)
@@ -63,9 +66,9 @@ std::vector<Cell *> Board::getAllPossibleMovements(int color) const
     return res;
 }
 
-std::vector<Cell *> Board::getCellsByPieceColor(int color) const
+vector<Cell *> Board::getCellsByPieceColor(int color) const
 {
-    std::vector<Cell *> res;
+    vector<Cell *> res;
     for(unsigned int i = 0; i < getRowNum(); i++)
     {
         for(unsigned int j = 0; j < getColNum(); j++)
@@ -81,9 +84,9 @@ std::vector<Cell *> Board::getCellsByPieceColor(int color) const
     return res;
 }
 
-std::vector<Cell *> Board::getCellsBetweenInLine(Cell *c1, Cell *c2) const
+vector<Cell *> Board::getCellsBetweenInLine(Cell *c1, Cell *c2) const
 {
-    std::vector<Cell *> res;
+    vector<Cell *> res;
     if(c1->getRowNum() == c2->getRowNum())
     {
         int row = c1->getRowNum();
@@ -146,12 +149,17 @@ int Board::getDistanceBetweenInLine(Cell *c1, Cell *c2) const
     return -1;
 }
 
+int Board::getPoint(int color) const
+{
+    return getCellsByPieceColor(color).size();
+}
+
 bool Board::isPossibleMovement(Cell *c, int color) const
 {
     if(c->isEmpty() == false)
         return false;
 
-    std::vector<Cell *> sameColorPieces = getCellsByPieceColor(color);
+    vector<Cell *> sameColorPieces = getCellsByPieceColor(color);
     for(unsigned int i = 0; i < sameColorPieces.size(); i++)
     {
         Cell *c1 = sameColorPieces[i];
@@ -177,7 +185,7 @@ bool Board::isJump(Cell *c1, Cell *c2, int color) const
 {
     if(c1 == c2)
         return false;
-    std::vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
+    vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
     if(cellsBetween.size() == 0)
         return false;
     else
@@ -197,7 +205,7 @@ int Board::makeJump(Cell *c1, Cell *c2, int color)
 {
     if(isJump(c1, c2, color) == false)
         return 0;
-    std::vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
+    vector<Cell *> cellsBetween = getCellsBetweenInLine(c1, c2);
     for(unsigned int j = 0; j < cellsBetween.size(); j++)
     {
         cellsBetween[j]->getPiece()->flipColor();
@@ -228,22 +236,27 @@ int Board::addMovement(int row, int col, int color)
     return -1;
 }
 
-std::string Board::deepToString() const
+string Board::deepToString() const
 {
-    std::stringstream out;
-    out << "Board: " << std::endl;
+    stringstream out;
+    out << "*------------------------  BOARD  -------------------------*" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
     out << toString();
-    out << "White Possible Movements:" << std::endl;
-
-    std::vector<Cell *> wmvs = getAllPossibleMovements(WHITE);
-    for(unsigned int i = 0; i < wmvs.size(); i++)
-        out << "-->" << wmvs[i]->toString();
-
-    out << "Black Possible Movements:" << std::endl;
-    std::vector<Cell *> bmvs = getAllPossibleMovements(BLACK);
-    for(unsigned int i = 0; i < bmvs.size(); i++)
-        out << "-->" << bmvs[i]->toString();
-
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    out << "* ........................................................ *" << endl;
+    out << setfill(' ') << "* |" <<  setw(17) << "" << "| White" << setw(12) << "" << "| Black"
+        << setw(11) << "" << "| *"  << std::endl;
+    out << "* +------------------------------------------------------+ *" << endl;
+    out << setfill(' ') << "* | " <<  setw(16) << "Movements" << "| "
+        << setw(17) << getAllPossibleMovementsStr(WHITE) << "| "
+        << setw(16) << getAllPossibleMovementsStr(BLACK) << "| *"  << std::endl;
+    out << setfill(' ') << "* | " <<  setw(16) << "Point" << "| "
+        << setw(17) << getPoint(WHITE) << "| "
+        << setw(16) << getPoint(BLACK) << "| *"  << endl;
+    out << "* ........................................................ *" << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
     return out.str();
 }
 
@@ -260,19 +273,31 @@ int Board::addMovementUpdates(Cell *c, int color)
     return ret;
 }
 
+string Board::getAllPossibleMovementsStr(int color) const
+{
+    stringstream out;
+    std::vector<Cell *> wmvs = getAllPossibleMovements(color);
+    for(unsigned int i = 0; i < mini(wmvs.size(), 5); i++)
+    {
+        out  << wmvs[i]->toString()<< " ";
+    }
+    return out.str();
+}
+
 std::string Board::toString() const
 {
     std::stringstream out;
-    out << "    A B C D E F G H" << std::endl << std::endl;
+    out << setfill(' ') << "* " << std::left << setw(19) << "" <<
+          "    A B C D E F G H" << setw(19) << "" << "*" << std::endl;
     for(unsigned int i = 0; i < getRowNum(); i++)
     {
-        out << i+1 << "   ";
+        out << setfill(' ') << "* " << std::left << setw(19) << "" << i+1 << "   ";
         for(unsigned int j = 0; j < getColNum(); j++)
         {
             //out << getCell(i, j)->getLabel() << " ";
             out << getCell(i, j)->getPieceSign() << " ";
         }
-        out << std::endl;
+        out << setw(18) << "" << "*" << std::endl;
     }
     return out.str();
 }

@@ -21,7 +21,9 @@ public:
     void setSecondPlayer(Player *secondPlayer);
 
     string toString() const;
-    string toDeepString() const;
+    string deepToString() const;
+
+    int getID() const;
 
 private:
     Board *myBoard;

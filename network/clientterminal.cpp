@@ -18,7 +18,7 @@ void ClientTerminal::doConnect()
     connect(mySocket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
     connect(mySocket, SIGNAL(readyRead()),this, SLOT(readyRead()));
 
-    qDebug() << "connecting...";
+    cout << "connecting..." << endl;
 
     // this is not blocking call
     mySocket->connectToHost("127.0.0.1", 1234);
@@ -26,32 +26,32 @@ void ClientTerminal::doConnect()
     // we need to wait...
     if(!mySocket->waitForConnected(5000))
     {
-        qDebug() << "Error: " << mySocket->errorString();
+        cout << "Error: " << mySocket->errorString().toStdString() << endl;
     }
 }
 
 void ClientTerminal::connected()
 {
-    qDebug() << "connected...";
+    cout << "connected..." << endl;
     mySocket->write("PLAYER Mehrshad");
 }
 
 void ClientTerminal::disconnected()
 {
-    qDebug() << "disconnected...";
+    cout << "disconnected..." << endl;
 }
 
 void ClientTerminal::bytesWritten(qint64 bytes)
 {
-    qDebug() << bytes << " bytes written...";
+    cout << bytes << " bytes written..." << endl;
 }
 
 void ClientTerminal::readyRead()
 {
-    qDebug() << "reading...";
+    cout << "reading..." << endl;
 
     // read the data from the socket
-    qDebug() << mySocket->readAll();
+    cout << mySocket->readAll().toStdString();
 
     string cmd;
     cin >> cmd;
@@ -68,8 +68,16 @@ void ClientTerminal::readyRead()
     {
         mySocket->write("LISTGAME");
     }
-    else if(cmd == "CONNECT")
+    else if(cmd == "JOIN")
     {
-        mySocket->write("CONNECT");
+        mySocket->write("JOIN 0");
+    }
+    else if(cmd == "WATCH")
+    {
+        mySocket->write("WATCH");
+    }
+    else if(cmd == "START")
+    {
+        mySocket->write("START");
     }
 }

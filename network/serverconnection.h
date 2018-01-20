@@ -27,6 +27,8 @@ public:
 
     string toString() const;
 
+    static vector<Game *> ourGames;
+
 signals:
     void error(QTcpSocket::SocketError socketerror);
 
@@ -35,12 +37,13 @@ public slots:
     void disconnected();
 
 private:
+    int importIntoGame(int gameID);
+
     QTcpSocket    * mySocket;
     qintptr         mySocketDescriptor;
     Player        * myPlayer;
     int             myGameStatus;
 
-    static vector<Game *> ourGames;
 };
 
 #endif // SERVERCONNECTION_H

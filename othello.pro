@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     logic/player/serverplayer.cpp \
     network/serverterminal.cpp \
     network/serverconnection.cpp \
-    network/clientterminal.cpp
+    network/clientterminal.cpp \
+    network/servercli.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -47,4 +48,5 @@ HEADERS += \
     logic/player/serverplayer.h \
     network/serverterminal.h \
     network/serverconnection.h \
-    network/clientterminal.h
+    network/clientterminal.h \
+    network/servercli.h

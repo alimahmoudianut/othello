@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 using namespace std;
 
 int Game::ourCnt = 0;
@@ -28,7 +29,9 @@ void Game::start()
 {
     while(1)
     {
+        cout << deepToString() << endl;
         myFirstPlayer->play(myBoard);
+        cout << deepToString() << endl;
         mySecondPlayer->play(myBoard);
     }
 }
@@ -50,9 +53,29 @@ string Game::toString() const
     return out.str();
 }
 
-string Game::toDeepString() const
+string Game::deepToString() const
 {
     stringstream out;
-    out << myBoard->deepToString() << endl;
+    out << setfill('*') << setw(60) << "" << endl;
+    out << setfill(' ') <<  "* Game " << std::left << setw(52) << myID  << "*"  << endl;
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    out << myBoard->deepToString();
+    out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    if(myFirstPlayer != NULL)
+    {
+        out << myFirstPlayer->deepToString(1);
+        out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    }
+    if(mySecondPlayer != NULL)
+    {
+        out << mySecondPlayer->deepToString(2);
+        out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    }
+    out << setfill('*') << setw(60) << "" << endl;
     return out.str();
+}
+
+int Game::getID() const
+{
+    return myID;
 }

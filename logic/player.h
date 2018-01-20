@@ -12,14 +12,16 @@ public:
     Player(int color, string name);
 
     int getColor() const;
-    std::string getColorStr() const;
+    string getColorStr() const;
     int getID() const;
+    string getName() const;
 
     void setColor(int color);
 
     virtual void play(Board *board) = 0;
 
     string toString() const;
+    virtual string deepToString(int i = 1) const;
 
 private:
     int myColor;

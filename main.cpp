@@ -27,9 +27,6 @@ int main(int argc, char *argv[])
 
     QString typeStr = parser->value(typeOpt);
 
-
-
-
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
         s.doConnect();
@@ -37,6 +34,7 @@ int main(int argc, char *argv[])
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {
         server.startServer();
+        server.startCLI();
     }
     else
     {

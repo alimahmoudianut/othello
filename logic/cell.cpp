@@ -72,7 +72,7 @@ bool Cell::isEmpty()
 std::string Cell::toString() const
 {
     std::stringstream out;
-    out << "Cell(" << getRowNum() << ", " << getColNum() << ", " << getLabel() << ")" << std::endl;
+    out << getLabel();
     return out.str();
 }
 

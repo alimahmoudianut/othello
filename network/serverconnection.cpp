@@ -80,10 +80,10 @@ void ServerConnection::readyRead()
         if(this->myGameStatus == STATUS_IS_IDLE)
         {
             Game *g = new Game();
-            cout << g->toDeepString() << endl;
+            cout << g->deepToString() << endl;
             ourGames.push_back(g);
+            mySocket->write(g->toString().c_str());
         }
-        mySocket->write("GAME 1");
     }
     else if(cmd == "LISTGAME")
     {
@@ -92,6 +92,16 @@ void ServerConnection::readyRead()
             mySocket->write(ourGames[i]->toString().c_str());
         }
     }
+    else if(cmd == "JOIN")
+    {
+        int gameID;
+        ss >> gameID;
+        if(importIntoGame(gameID) == 0)
+           mySocket->write("GAMEJOINED");
+        else
+            mySocket->write("FAILED TO JOIN");
+    }
+
 }
 
 void ServerConnection::disconnected()
@@ -101,4 +111,17 @@ void ServerConnection::disconnected()
 
     mySocket->deleteLater();
     exit(0);
+}
+
+int ServerConnection::importIntoGame(int gameID)
+{
+    for(unsigned int i = 0; i < ourGames.size(); i++)
+    {
+        if(ourGames[i]->getID() == gameID)
+        {
+            ourGames[i]->setSecondPlayer(myPlayer);
+            return 0;
+        }
+    }
+    return -1;
 }
