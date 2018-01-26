@@ -9,6 +9,7 @@
 #include <QDebug>
 #include "logic/game.h"
 #include "logic/player/clientplayer.h"
+#include "network/servercli.h"
 #include <vector>
 using namespace std;
 

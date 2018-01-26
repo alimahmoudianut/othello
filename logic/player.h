@@ -4,6 +4,7 @@
 #include "logic/piece.h"
 #include "logic/board.h"
 #include <string>
+#include <QObject>
 using namespace std;
 
 class Player
@@ -21,7 +22,7 @@ public:
     virtual void play(Board *board) = 0;
 
     string toString() const;
-    virtual string deepToString(int i = 1) const;
+    virtual string deepToString(int i = 1, int type = 1) const;
 
 private:
     int myColor;

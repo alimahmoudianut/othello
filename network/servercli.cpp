@@ -31,7 +31,7 @@ void ServerCLI::run()
         {
             for(unsigned int i = 0; i < ServerConnection::ourGames.size(); i++)
             {
-                cout << ServerConnection::ourGames[i]->toString() << endl;
+                cout << ServerConnection::ourGames[i]->deepToString() << endl;
             }
         }
         else

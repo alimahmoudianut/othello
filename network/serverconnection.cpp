@@ -17,9 +17,6 @@ ServerConnection::ServerConnection(qintptr ID, QObject *parent) :
 
 void ServerConnection::run()
 {
-    // thread starts here
-    cout << " Thread started" << endl;
-
     mySocket = new QTcpSocket();
 
     // set the ID
@@ -38,7 +35,7 @@ void ServerConnection::run()
     connect(mySocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
 
     // We'll have multiple clients, we want to know which is which
-    cout << mySocketDescriptor << " Client connected" << endl;
+    cout << "Client " << mySocketDescriptor << " connected" << endl;
 
     exec();
 }
@@ -57,9 +54,7 @@ void ServerConnection::readyRead()
     QByteArray data = mySocket->readAll();
 
     // will write on server side window
-    cout << mySocketDescriptor << " Data in: " << data.toStdString() << endl;
-
-
+    cout << endl << "Client " << mySocketDescriptor << " >>  " << data.toStdString() << endl;
 
     stringstream ss(data.toStdString());
     string cmd;
@@ -69,17 +64,21 @@ void ServerConnection::readyRead()
     {
         string playerName;
         ss >> playerName;
-        myPlayer = new ClientPlayer(WHITE, playerName);
-        cout << myPlayer->deepToString(1);
+        myPlayer = new ClientPlayer(WHITE, playerName, mySocket);
+        cout << myPlayer->deepToString(1, 2) << endl;
+        cout << COMMAND_PROMPT ;
+        cout.flush();
         mySocket->write(myPlayer->toString().c_str());
     }
     else if(cmd == "NEWGAME")
     {
-        if(this->myGameStatus == STATUS_IS_IDLE)
+        if((this->myGameStatus == STATUS_IS_IDLE) && (myPlayer != NULL))
         {
             Game *g = new Game(TERMINAL_SERVER);
             g->setFirstPlayer(myPlayer);
             cout << g->deepToString() << endl;
+            cout << COMMAND_PROMPT;
+            cout.flush();
             ourGames.push_back(g);
             mySocket->write(g->toString().c_str());
         }
@@ -119,6 +118,8 @@ int ServerConnection::importIntoGame(int gameID)
         if(ourGames[i]->getID() == gameID && ourGames[i]->getFirstPlayer() != myPlayer)
         {
             ourGames[i]->setSecondPlayer(myPlayer);
+            myPlayer->setColor(BLACK);
+            ourGames[i]->start(1);
             return 0;
         }
     }

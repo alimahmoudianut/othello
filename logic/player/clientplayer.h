@@ -2,17 +2,20 @@
 #define CLIENTPLAYER_H
 
 #include "logic/player.h"
+#include <QTcpSocket>
 #include <sstream>
 using namespace std;
 
 class ClientPlayer : public Player
 {
 public:
-    ClientPlayer(int color, string name);
+    ClientPlayer(int color, string name, QTcpSocket * socket);
 
     void play(Board *board);
-
     string deepToString(int i = 1) const;
+
+private:
+    QTcpSocket * mySocket;
 
 };
 

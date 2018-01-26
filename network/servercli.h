@@ -3,6 +3,8 @@
 
 #include <QThread>
 
+#define COMMAND_PROMPT  "Command (m for help) >> "
+
 class ServerCLI : public QThread
 {
 public:

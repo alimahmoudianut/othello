@@ -48,12 +48,21 @@ string Player::toString() const
     return out.str();
 }
 
-string Player::deepToString(int i) const
+string Player::deepToString(int i, int type) const
 {
     stringstream out;
-    out << "*------------------------ PLAYER " << i << " ------------------------*" << endl;
+    if(type == 1)
+        out << "*------------------------ PLAYER " << i << " ------------------------*" << endl;
+    else
+        out << setfill('*') << setw(60) << "" << endl;
     out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+    out << "* ID : " << std::left << setw(52) << getID()  << "*"  << endl;
     out << "* Name : " << std::left << setw(50) << getName()  << "*"  << endl;
     out << "* Color : " << std::left << setw(49) << getColorStr() << "*" << endl;
+    if(type != 1)
+    {
+        out << setfill(' ') << "* " << std::left << setw(57) << "" << "*" << endl;
+        out << setfill('*') << setw(60) << "" << endl;
+    }
     return out.str();
 }

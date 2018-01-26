@@ -31,13 +31,15 @@ Game::Game(int type)
     }
 }
 
-void Game::start()
+void Game::start(int detail)
 {
-    while(1)
+    for(int i = 0; i < 10; i++)
     {
-        cout << deepToString() << endl;
+        if(detail == 0)
+            cout << deepToString() << endl;
         myFirstPlayer->play(myBoard);
-        cout << deepToString() << endl;
+        if(detail == 0)
+            cout << deepToString() << endl;
         mySecondPlayer->play(myBoard);
     }
 }

@@ -16,7 +16,7 @@ class Game
 public:
     Game(int type = TERMINAL_OFFLINE);
 
-    void start();
+    void start(int detail = 0);
     void setFirstPlayer(Player *firstPlayer);
     void setSecondPlayer(Player *secondPlayer);
 
