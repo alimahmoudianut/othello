@@ -48,6 +48,18 @@ string ServerConnection::toString() const
     return out.str();
 }
 
+Game *ServerConnection::findMyGame() const
+{
+    for(unsigned int i = 0; i < ourGames.size(); i++)
+    {
+        if(ourGames[i]->getFirstPlayer() == myPlayer || ourGames[i]->getSecondPlayer() == myPlayer)
+        {
+            return ourGames[i];
+        }
+    }
+    return NULL;
+}
+
 void ServerConnection::readyRead()
 {
     // get the information
@@ -99,7 +111,23 @@ void ServerConnection::readyRead()
         else
             mySocket->write("FAILED TO JOIN");
     }
+    else if(cmd == "MV")
+    {
 
+    }
+    else if(cmd == "STATUS")
+    {
+        Game *g = findMyGame();
+        if(g == NULL)
+        {
+            mySocket->write("NO GAME FOUND");
+        }
+
+    }
+    else if(cmd == "END")
+    {
+
+    }
 }
 
 void ServerConnection::disconnected()
@@ -117,10 +145,14 @@ int ServerConnection::importIntoGame(int gameID)
     {
         if(ourGames[i]->getID() == gameID && ourGames[i]->getFirstPlayer() != myPlayer)
         {
-            ourGames[i]->setSecondPlayer(myPlayer);
-            myPlayer->setColor(BLACK);
-            ourGames[i]->start(1);
-            return 0;
+            if(ourGames[i]->getSecondPlayer() == NULL)
+            {
+                ourGames[i]->setSecondPlayer(myPlayer);
+                myPlayer->setColor(BLACK);
+                return 0;
+            }
+            else
+                return -2;
         }
     }
     return -1;

@@ -29,6 +29,7 @@ public:
     string toString() const;
 
     static vector<Game *> ourGames;
+    Game *findMyGame() const;
 
 signals:
     void error(QTcpSocket::SocketError socketerror);

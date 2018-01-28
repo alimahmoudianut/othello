@@ -64,6 +64,13 @@ Player *Game::getSecondPlayer() const
     return mySecondPlayer;
 }
 
+int Game::getNumberOfPlayers() const
+{
+    int ret = 0;
+    if(getFirstPlayer() != NULL)
+
+}
+
 string Game::toString() const
 {
     stringstream out;
@@ -93,7 +100,46 @@ string Game::deepToString() const
     return out.str();
 }
 
+int Game::addMovement(string mv, Player *player)
+{
+    if(getTurn() == player->getColor())
+    {
+        if(myBoard->addMovement(mv[1]-'1', mv[0]-'A', color) == 0)
+        {
+            calculateNextTurn();
+            return 0;
+        }
+        else
+            return -1;
+    }
+    else
+        return -2;
+}
+
+int Game::getTurn() const
+{
+    return myTurn;
+}
+
 int Game::getID() const
 {
     return myID;
+}
+
+void Game::calculateNextTurn()
+{
+    if(myTurn == WHITE)
+    {
+        if(myBoard->getAllPossibleMovements(BLACK).size() != 0)
+        {
+            myTurn = BLACK;
+        }
+    }
+    else
+    {
+        if(myBoard->getAllPossibleMovements(WHITE).size() != 0)
+        {
+            myTurn = WHITE;
+        }
+    }
 }

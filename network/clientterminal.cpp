@@ -1,6 +1,7 @@
 #include "network/clientterminal.h"
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 ClientTerminal::ClientTerminal(QObject *parent) :
@@ -53,8 +54,11 @@ void ClientTerminal::readyRead()
     // read the data from the socket
     cout << mySocket->readAll().toStdString();
 
+    string input;
+    cin >> input;
+    stringstream ss(input.c_str());
     string cmd;
-    cin >> cmd;
+    ss >> cmd;
 
     if(cmd == "NEWGAME")
     {
@@ -70,7 +74,9 @@ void ClientTerminal::readyRead()
     }
     else if(cmd == "JOIN")
     {
-        mySocket->write("JOIN 0");
+        int gameID;
+        ss >> gameID;
+        mySocket->write(input.c_str());
     }
     else if(cmd == "WATCH")
     {

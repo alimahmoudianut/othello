@@ -23,15 +23,23 @@ public:
     Player *getFirstPlayer() const;
     Player *getSecondPlayer() const;
 
+    int getNumberOfPlayers() const;
+
     string toString() const;
     string deepToString() const;
 
+    int addMovement(string mv, Player *player);
+
+    int getTurn() const;
     int getID() const;
 
 private:
+    void calculateNextTurn();
+
     Board *myBoard;
     Player *myFirstPlayer;
     Player *mySecondPlayer;
+    int myTurn;
 
     int myID;
     static int ourCnt;
