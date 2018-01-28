@@ -19,11 +19,15 @@ public:
     void start(int detail = 0);
     void setFirstPlayer(Player *firstPlayer);
     void setSecondPlayer(Player *secondPlayer);
+    void setLastMovement(string mv, Player *player);
 
     Player *getFirstPlayer() const;
     Player *getSecondPlayer() const;
-
+    string getLastMovement() const;
     int getNumberOfPlayers() const;
+
+    int isPlayerTurn(Player *player) const;
+
 
     string toString() const;
     string deepToString() const;
@@ -39,7 +43,9 @@ private:
     Board *myBoard;
     Player *myFirstPlayer;
     Player *mySecondPlayer;
+    string myLastMovement;
     int myTurn;
+
 
     int myID;
     static int ourCnt;

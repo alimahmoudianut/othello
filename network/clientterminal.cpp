@@ -54,11 +54,9 @@ void ClientTerminal::readyRead()
     // read the data from the socket
     cout << mySocket->readAll().toStdString();
 
-    string input;
-    cin >> input;
-    stringstream ss(input.c_str());
     string cmd;
-    ss >> cmd;
+    cin >> cmd;
+
 
     if(cmd == "NEWGAME")
     {
@@ -75,8 +73,10 @@ void ClientTerminal::readyRead()
     else if(cmd == "JOIN")
     {
         int gameID;
-        ss >> gameID;
-        mySocket->write(input.c_str());
+        char msg[32];
+        cin >> gameID;
+        sprintf(msg, "JOIN %d", gameID);
+        mySocket->write(msg);
     }
     else if(cmd == "WATCH")
     {
@@ -85,5 +85,25 @@ void ClientTerminal::readyRead()
     else if(cmd == "START")
     {
         mySocket->write("START");
+    }
+    else if(cmd == "STATUS")
+    {
+        mySocket->write("STATUS");
+    }
+    else if(cmd == "LASTMV")
+    {
+        mySocket->write("LASTMV");
+    }
+    else if(cmd == "ENDGAME")
+    {
+        mySocket->write("ENDGAME");
+    }
+    else if(cmd == "MV")
+    {
+        string mv;
+        char msg[32];
+        cin >> mv;
+        sprintf(msg, "MV %s", mv.c_str());
+        mySocket->write(msg);
     }
 }

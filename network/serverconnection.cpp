@@ -60,6 +60,20 @@ Game *ServerConnection::findMyGame() const
     return NULL;
 }
 
+int ServerConnection::removeMyGame() const
+{
+    for(unsigned int i = 0; i < ourGames.size(); i++)
+    {
+        if(ourGames[i]->getFirstPlayer() == myPlayer || ourGames[i]->getSecondPlayer() == myPlayer)
+        {
+            Game *g = ourGames[i];
+            ourGames.erase(ourGames.begin() + i);
+            return 0;
+        }
+    }
+    return -1;
+}
+
 void ServerConnection::readyRead()
 {
     // get the information
@@ -113,7 +127,25 @@ void ServerConnection::readyRead()
     }
     else if(cmd == "MV")
     {
-
+        string mv;
+        ss >> mv;
+        int ret = findMyGame()->addMovement(mv, myPlayer);
+        if(ret == 0)
+        {
+            mySocket->write("MVADDED");
+        }
+        else if(ret == -1)
+        {
+            mySocket->write("INVALIDMV");
+        }
+        else if(ret == -2)
+        {
+            mySocket->write("NOT YOUR TURN");
+        }
+        else if(ret == -3)
+        {
+            mySocket->write("GAME NOT STARTED");
+        }
     }
     else if(cmd == "STATUS")
     {
@@ -122,11 +154,25 @@ void ServerConnection::readyRead()
         {
             mySocket->write("NO GAME FOUND");
         }
-
+        else if(g->getNumberOfPlayers() == 1)
+        {
+            mySocket->write("WAIT FOR OPPONENT JOIN");
+        }
+        else if(g->isPlayerTurn(myPlayer) == 0)
+        {
+            mySocket->write("YOUR TURN");
+        }
+        else
+        {
+            mySocket->write("WAIT FOR OPPONENT TURN");
+        }
     }
-    else if(cmd == "END")
+    else if(cmd == "ENDGAME")
     {
-
+        if(removeMyGame() == 0)
+            mySocket->write("GAMEFINISHED");
+        else
+            mySocket->write("NO GAME FOUND");
     }
 }
 

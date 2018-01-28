@@ -30,6 +30,7 @@ public:
 
     static vector<Game *> ourGames;
     Game *findMyGame() const;
+    int removeMyGame() const;
 
 signals:
     void error(QTcpSocket::SocketError socketerror);

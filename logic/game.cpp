@@ -9,6 +9,7 @@ int Game::ourCnt = 0;
 Game::Game(int type)
     :myID(ourCnt++)
 {
+    myTurn = BLACK;
     if(type == TERMINAL_OFFLINE)
     {
         myBoard = new Board(8, 8);
@@ -54,6 +55,14 @@ void Game::setSecondPlayer(Player *secondPlayer)
     mySecondPlayer = secondPlayer;
 }
 
+void Game::setLastMovement(string mv, Player *player)
+{
+    char tmp[256];
+    sprintf(tmp, "%s %s", player->getColorStr().c_str(), mv.c_str());
+    string lastMV(tmp);
+    myLastMovement = lastMV;
+}
+
 Player *Game::getFirstPlayer() const
 {
     return myFirstPlayer;
@@ -68,7 +77,18 @@ int Game::getNumberOfPlayers() const
 {
     int ret = 0;
     if(getFirstPlayer() != NULL)
+        ret ++;
+    if(getSecondPlayer() != NULL)
+        ret ++;
+    return ret;
+}
 
+int Game::isPlayerTurn(Player *player) const
+{
+    if(getTurn() == player->getColor())
+        return 0;
+    else
+        return -1;
 }
 
 string Game::toString() const
@@ -102,9 +122,11 @@ string Game::deepToString() const
 
 int Game::addMovement(string mv, Player *player)
 {
+    if(getNumberOfPlayers() != 2)
+        return -3;
     if(getTurn() == player->getColor())
     {
-        if(myBoard->addMovement(mv[1]-'1', mv[0]-'A', color) == 0)
+        if(myBoard->addMovement(mv[1]-'1', mv[0]-'A', player->getColor()) == 0)
         {
             calculateNextTurn();
             return 0;
@@ -114,6 +136,11 @@ int Game::addMovement(string mv, Player *player)
     }
     else
         return -2;
+}
+
+string Game::getLastMovement() const
+{
+    return myLastMovement;
 }
 
 int Game::getTurn() const
