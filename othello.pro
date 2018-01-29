@@ -1,5 +1,6 @@
+QT += widgets
 QT += core
-QT -= gui
+QT += gui
 QT += network
 
 CONFIG += c++11
@@ -23,7 +24,9 @@ SOURCES += main.cpp \
     network/serverterminal.cpp \
     network/serverconnection.cpp \
     network/clientterminal.cpp \
-    network/servercli.cpp
+    network/servercli.cpp \
+    view/mainwindow.cpp \
+    view/boardwidget.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -49,7 +52,14 @@ HEADERS += \
     network/serverterminal.h \
     network/serverconnection.h \
     network/clientterminal.h \
-    network/servercli.h
+    network/servercli.h \
+    view/mainwindow.h \
+    view/boardwidget.h \
+    view/boardtexture.h
 
 RESOURCES += \
     src.qrc
+
+
+RESOURCES +=
+

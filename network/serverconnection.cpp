@@ -68,6 +68,7 @@ int ServerConnection::removeMyGame() const
         {
             Game *g = ourGames[i];
             ourGames.erase(ourGames.begin() + i);
+            delete g;
             return 0;
         }
     }
