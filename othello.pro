@@ -54,4 +54,7 @@ HEADERS += \
     network/clientterminal.h \
     network/servercli.h \
     view/mainwindow.h \
-    view/boardwidget.h
+    view/boardwidget.h \
+    view/boardtexture.h
+
+RESOURCES +=
