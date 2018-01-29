@@ -50,3 +50,6 @@ HEADERS += \
     network/serverconnection.h \
     network/clientterminal.h \
     network/servercli.h
+
+RESOURCES += \
+    src.qrc
