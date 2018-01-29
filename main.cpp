@@ -1,9 +1,11 @@
 #include <QCoreApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QApplication>
 #include "logic/game.h"
 #include "network/serverterminal.h"
 #include "network/clientterminal.h"
+#include "view/mainwindow.h"
 #include <iostream>
 using namespace std;
 
@@ -11,8 +13,9 @@ int main(int argc, char *argv[])
 {
     ServerTerminal server;
     ClientTerminal s;
+    MainWindow* win;
 
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
     QCommandLineParser *parser = new QCommandLineParser();
     QCommandLineOption typeOpt(QStringList() << "type"
@@ -29,7 +32,9 @@ int main(int argc, char *argv[])
 
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
-        s.doConnect();
+        win = new MainWindow();
+        win->show();
+     //   s.doConnect();
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {
