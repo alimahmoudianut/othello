@@ -21,6 +21,7 @@ public:
     void setSecondPlayer(Player *secondPlayer);
     void setLastMovement(string mv, Player *player);
 
+    Board *getBoard() const;
     Player *getFirstPlayer() const;
     Player *getSecondPlayer() const;
     string getLastMovement() const;

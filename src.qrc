@@ -1,1 +1,7 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>src/img/blackPiece.png</file>
+        <file>src/img/empty.png</file>
+        <file>src/img/whitePiece.png</file>
+    </qresource>
+</RCC>

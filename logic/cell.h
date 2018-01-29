@@ -3,6 +3,7 @@
 
 #include <string>
 #include "logic/piece.h"
+#include "view/boardtexture.h"
 
 class Cell
 {
@@ -14,6 +15,7 @@ public:
     std::string getLabel() const;
     std::string getPieceSign() const;
     Piece *getPiece() const;
+    int getTexture() const;
 
     void setRowNum(const int r);
     void setColNum(const int c);

@@ -63,6 +63,11 @@ void Game::setLastMovement(string mv, Player *player)
     myLastMovement = lastMV;
 }
 
+Board *Game::getBoard() const
+{
+    return myBoard;
+}
+
 Player *Game::getFirstPlayer() const
 {
     return myFirstPlayer;

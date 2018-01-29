@@ -47,6 +47,16 @@ Piece *Cell::getPiece() const
     return myPiece;
 }
 
+int Cell::getTexture() const
+{
+    if(getPiece() == NULL)
+        return EMPTY_CELL;
+    else if(getPiece()->getColor() == WHITE)
+        return WHITE_PIECE_CELL;
+    else if(getPiece()->getColor() == BLACK)
+        return BLACK_PIECE_CELL;
+}
+
 void Cell::setRowNum(const int r)
 {
     myRowNum = r;
@@ -78,6 +88,6 @@ std::string Cell::toString() const
 
 std::string Cell::deepToString() const
 {
-    return std::string("abc");
+    return toString();
 
 }

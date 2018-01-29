@@ -4,9 +4,9 @@
 
 enum PieceType
 {
-    EMPTY,
-    WHITE_PIECE,
-    BLACK_PIECE,
+    EMPTY_CELL,
+    WHITE_PIECE_CELL,
+    BLACK_PIECE_CELL,
     LAST_TYPE
 };
 
