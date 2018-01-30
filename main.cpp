@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     ServerTerminal server;
-    ClientTerminal s;
+    ClientTerminal *s = new ClientTerminal();
     MainWindow* win;
 
     QApplication a(argc, argv);
@@ -32,9 +32,7 @@ int main(int argc, char *argv[])
 
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
-        win = new MainWindow();
-        win->show();
-     //   s.doConnect();
+        win = new MainWindow(0, s);
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
     {

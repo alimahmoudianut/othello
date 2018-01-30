@@ -5,13 +5,14 @@
 #include <QGridLayout>
 #include "view/boardwidget.h"
 #include "logic/game.h"
+#include "network/clientterminal.h"
 
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = NULL);
+    explicit MainWindow(QWidget *parent, ClientTerminal *terminal);
 
 signals:
 

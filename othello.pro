@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     network/servercli.cpp \
     view/mainwindow.cpp \
     view/boardwidget.cpp \
-    view/newgamedialog.cpp
+    view/newgamedialog.cpp \
+    view/selectservergame.cpp
 
 HEADERS += \
     logic/piece.h \
@@ -46,7 +47,8 @@ HEADERS += \
     view/mainwindow.h \
     view/boardwidget.h \
     view/boardtexture.h \
-    view/newgamedialog.h
+    view/newgamedialog.h \
+    view/selectservergame.h
 
 RESOURCES += \
     src.qrc

@@ -31,31 +31,11 @@ void ClientTerminal::doConnect()
     }
 }
 
-void ClientTerminal::connected()
+void ClientTerminal::request(string request)
 {
-    cout << "connected..." << endl;
-    mySocket->write("PLAYER Mehrshad");
-}
-
-void ClientTerminal::disconnected()
-{
-    cout << "disconnected..." << endl;
-}
-
-void ClientTerminal::bytesWritten(qint64 bytes)
-{
-    cout << bytes << " bytes written..." << endl;
-}
-
-void ClientTerminal::readyRead()
-{
-    cout << "reading..." << endl;
-
-    // read the data from the socket
-    cout << mySocket->readAll().toStdString();
-
     string cmd;
-    cin >> cmd;
+    stringstream ss(request);
+    ss >> cmd;
 
 
     if(cmd == "NEWGAME")
@@ -74,7 +54,7 @@ void ClientTerminal::readyRead()
     {
         int gameID;
         char msg[32];
-        cin >> gameID;
+        ss >> gameID;
         sprintf(msg, "JOIN %d", gameID);
         mySocket->write(msg);
     }
@@ -102,8 +82,34 @@ void ClientTerminal::readyRead()
     {
         string mv;
         char msg[32];
-        cin >> mv;
+        ss >> mv;
         sprintf(msg, "MV %s", mv.c_str());
         mySocket->write(msg);
     }
+
+}
+
+string ClientTerminal::getLastResponse() const
+{
+    return myLastResponse;
+}
+
+void ClientTerminal::connected()
+{
+    cout << "connected..." << endl;
+    mySocket->write("PLAYER Mehrshad");
+}
+
+void ClientTerminal::disconnected()
+{
+    cout << "disconnected..." << endl;
+}
+
+void ClientTerminal::readyRead()
+{
+    cout << "reading..." << endl;
+
+    // read the data from the socket
+    myLastResponse = mySocket->readAll().toStdString();
+    cout << myLastResponse << endl;
 }
