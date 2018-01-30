@@ -103,6 +103,7 @@ void ServerConnection::readyRead()
         {
             Game *g = new Game(TERMINAL_SERVER);
             g->setFirstPlayer(myPlayer);
+            g->setGameType(2);
             cout << g->deepToString() << endl;
             cout << COMMAND_PROMPT;
             cout.flush();

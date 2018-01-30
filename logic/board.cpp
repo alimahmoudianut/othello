@@ -156,6 +156,7 @@ int Board::getPoint(int color) const
 
 bool Board::isPossibleMovement(Cell *c, int color) const
 {
+
     if(c->isEmpty() == false)
         return false;
 

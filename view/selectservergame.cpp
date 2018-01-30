@@ -16,7 +16,6 @@ SelectServerGame::SelectServerGame(QWidget *parent, ClientTerminal *terminal)
     mainLayout->addWidget(createGameSelectGroup(), 0, 0);
 
     myTerminal = terminal;
-    terminal->doConnect();
     terminal->request("LISTGAME");
 
     updateGameList();

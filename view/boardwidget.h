@@ -39,6 +39,8 @@ private:
 
     int myCellWidth;
     int myCellHeight;
+
+    ClientTerminal * myTerminal;
 };
 
 #endif // BOARDWIDGET_H

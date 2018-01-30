@@ -32,12 +32,14 @@ BoardWidget::BoardWidget(QWidget *parent, Game *game) : QWidget(parent)
                , (myCellWidth + myGapWidth) * myGame->getBoard()->getColNum() - myGapWidth + 2 * myPadWidth);
     setMaximumSize(size);
     setMinimumSize(size);
+
+    myTerminal = NULL;
 }
 
 BoardWidget::BoardWidget(QWidget *parent, Game *game, ClientTerminal *terminal)
     :BoardWidget(parent, game)
 {
-
+    myTerminal = terminal;
 }
 
 void BoardWidget::paintEvent(QPaintEvent *event)
@@ -74,10 +76,22 @@ void BoardWidget::mousePressEvent(QMouseEvent *event)
     if(cell == NULL)
         return;
     cout << cell->deepToString() << endl;
-    if(myGame->getTurn() == WHITE)
-        myGame->addMovement(cell->toString(), myGame->getFirstPlayer());
+    if(myTerminal == NULL)
+    {
+        if(myGame->getTurn() == WHITE)
+            myGame->addMovement(cell->toString(), myGame->getFirstPlayer());
+        else
+            myGame->addMovement(cell->toString(), myGame->getSecondPlayer());
+    }
     else
-        myGame->addMovement(cell->toString(), myGame->getSecondPlayer());
+    {
+        cout << "terminal" << endl;
+        char msg[64];
+        sprintf(msg, "MV %s", cell->toString().c_str());
+        cout << msg << endl;
+        myTerminal->request(string(msg));
+    }
+
     cout << myGame->deepToString() << endl;
     update();
 }

@@ -15,7 +15,6 @@ NewGameDialog::NewGameDialog(QWidget *parent, ClientTerminal *terminal)
     setLayout(mainLayout);
 
     myTerminal = terminal;
-
 }
 
 int NewGameDialog::getGameType()
@@ -38,7 +37,6 @@ void NewGameDialog::newGameClicked()
     else if(myServerGameRadioBtn->isChecked() == true)
     {
         SelectServerGame *sDialog = new SelectServerGame(this, myTerminal);
-        this->hide();
         if(sDialog->exec() == QDialog::Accepted)
         {
             myGameType = ONLINE_GAME;

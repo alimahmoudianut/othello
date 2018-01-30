@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 
     if(typeStr.toLower() == "c" || typeStr.toLower() == "client")
     {
+        s->doConnect();
         win = new MainWindow(0, s);
     }
     else if(typeStr.toLower() == "s" || typeStr.toLower() == "server")
