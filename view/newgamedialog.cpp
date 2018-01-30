@@ -18,16 +18,32 @@ NewGameDialog::NewGameDialog(QWidget *parent, ClientTerminal *terminal)
 
 }
 
+int NewGameDialog::getGameType()
+{
+    return myGameType;
+}
+
 void NewGameDialog::newGameClicked()
 {
     if(myTwoPlayerGameRadioBtn->isChecked() == true)
+    {
+        myGameType = TWO_PLAYER_GAME;
         accept();
+    }
     else if(mySinglePlayerGameRadioBtn->isChecked() == true)
+    {
+        myGameType = SINGLE_PLAYER_GAME;
         accept();
+    }
     else if(myServerGameRadioBtn->isChecked() == true)
     {
         SelectServerGame *sDialog = new SelectServerGame(this, myTerminal);
-        sDialog->show();
+        this->hide();
+        if(sDialog->exec() == QDialog::Accepted)
+        {
+            myGameType = ONLINE_GAME;
+            accept();
+        }
     }
 }
 
@@ -45,11 +61,6 @@ QGroupBox *NewGameDialog::createGameSelectGroup()
     vbox->addWidget(myTwoPlayerGameRadioBtn);
     vbox->addWidget(mySinglePlayerGameRadioBtn);
     vbox->addWidget(myServerGameRadioBtn);
-
-    QVBoxLayout *empty = new QVBoxLayout;
-    vbox->addLayout(empty);
-    empty->stretch(0);
-
     groupBox->setLayout(vbox);
 
     return groupBox;

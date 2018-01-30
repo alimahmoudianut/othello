@@ -98,6 +98,7 @@ void ClientTerminal::connected()
 {
     cout << "connected..." << endl;
     mySocket->write("PLAYER Mehrshad");
+    mySocket->flush();
 }
 
 void ClientTerminal::disconnected()

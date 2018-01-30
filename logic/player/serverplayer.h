@@ -8,7 +8,7 @@ class ServerPlayer : public Player
 public:
     ServerPlayer(int color, string name);
 
-    void play(Board *board);
+    string play(Board const * const board);
 
     string deepToString(int i = 1) const;
 };

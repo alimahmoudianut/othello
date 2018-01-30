@@ -20,12 +20,15 @@ public:
     void setFirstPlayer(Player *firstPlayer);
     void setSecondPlayer(Player *secondPlayer);
     void setLastMovement(string mv, Player *player);
+    void setGameType(int gameType);
 
     Board *getBoard() const;
     Player *getFirstPlayer() const;
     Player *getSecondPlayer() const;
     string getLastMovement() const;
     int getNumberOfPlayers() const;
+    int getGameType() const;
+
 
     int isPlayerTurn(Player *player) const;
 
@@ -46,6 +49,7 @@ private:
     Player *mySecondPlayer;
     string myLastMovement;
     int myTurn;
+    int myGameType;
 
 
     int myID;

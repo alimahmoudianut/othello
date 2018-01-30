@@ -11,7 +11,7 @@ class ClientPlayer : public Player
 public:
     ClientPlayer(int color, string name, QTcpSocket * socket);
 
-    void play(Board *board);
+    string play(Board const * const board);
     string deepToString(int i = 1) const;
 
 private:

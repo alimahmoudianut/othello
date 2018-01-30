@@ -8,11 +8,20 @@
 #include <QLayout>
 #include "network/clientterminal.h"
 
+enum gameType
+{
+    SINGLE_PLAYER_GAME,
+    TWO_PLAYER_GAME,
+    ONLINE_GAME
+};
+
 class NewGameDialog : public QDialog
 {
     Q_OBJECT
 public:
     NewGameDialog(QWidget *parent, ClientTerminal *terminal);
+
+    int getGameType();
 
 private slots:
     void newGameClicked();
@@ -29,6 +38,8 @@ private:
     QPushButton *myCancelBtn;
 
     ClientTerminal *myTerminal;
+
+    int myGameType;
 };
 
 #endif // NEWGAMEDIALOG_H

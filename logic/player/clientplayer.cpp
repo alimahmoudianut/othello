@@ -8,7 +8,7 @@ ClientPlayer::ClientPlayer(int color, string name, QTcpSocket * socket)
     mySocket = socket;
 }
 
-void ClientPlayer::play(Board *board)
+string ClientPlayer::play(Board const * const board)
 {
     if(this->getColor() == WHITE)
         mySocket->write("your turn");

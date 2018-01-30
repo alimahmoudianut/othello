@@ -11,6 +11,7 @@ class Player
 {
 public:
     Player(int color, string name);
+    ~Player(){}
 
     int getColor() const;
     string getColorStr() const;
@@ -19,7 +20,7 @@ public:
 
     void setColor(int color);
 
-    virtual void play(Board *board) = 0;
+    virtual string play(Board const * const board) = 0;
 
     string toString() const;
     virtual string deepToString(int i = 1, int type = 1) const;

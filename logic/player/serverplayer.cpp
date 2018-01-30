@@ -8,7 +8,7 @@ ServerPlayer::ServerPlayer(int color, string name)
 
 }
 
-void ServerPlayer::play(Board *board)
+string ServerPlayer::play(Board const * const board)
 {
 
 }

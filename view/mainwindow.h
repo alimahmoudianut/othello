@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include "view/boardwidget.h"
+#include "view/newgamedialog.h"
 #include "logic/game.h"
 #include "network/clientterminal.h"
 
@@ -21,8 +22,10 @@ public slots:
 private:
     void setupWidgets();
 
+    NewGameDialog *myNewGameDialog;
     BoardWidget *myBoardWidget;
     QGridLayout * myGrid;
+    ClientTerminal *myTerminal;
 
     Game *myGame;
 };

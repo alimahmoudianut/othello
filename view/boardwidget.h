@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QList>
 #include <logic/game.h>
+#include "network/clientterminal.h"
 
 
 
@@ -11,7 +12,8 @@ class BoardWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BoardWidget(QWidget *parent = nullptr, Game *board = NULL);
+    explicit BoardWidget(QWidget *parent = nullptr, Game *game = NULL);
+    explicit BoardWidget(QWidget *parent, Game *game, ClientTerminal *terminal);
 
 signals:
 

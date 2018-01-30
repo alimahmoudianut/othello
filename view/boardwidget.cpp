@@ -34,6 +34,12 @@ BoardWidget::BoardWidget(QWidget *parent, Game *game) : QWidget(parent)
     setMinimumSize(size);
 }
 
+BoardWidget::BoardWidget(QWidget *parent, Game *game, ClientTerminal *terminal)
+    :BoardWidget(parent, game)
+{
+
+}
+
 void BoardWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter;

@@ -1,7 +1,10 @@
 #include "game.h"
+#include "logic/player/cpuplayer.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <stdlib.h>
+#include <unistd.h>
 using namespace std;
 
 int Game::ourCnt = 0;
@@ -63,6 +66,16 @@ void Game::setLastMovement(string mv, Player *player)
     myLastMovement = lastMV;
 }
 
+void Game::setGameType(int gameType)
+{
+    myGameType = gameType;
+    if(mySecondPlayer != NULL)
+    {
+        delete myFirstPlayer;
+        myFirstPlayer = new CpuPlayer(WHITE);
+    }
+}
+
 Board *Game::getBoard() const
 {
     return myBoard;
@@ -88,6 +101,11 @@ int Game::getNumberOfPlayers() const
     return ret;
 }
 
+int Game::getGameType() const
+{
+    return myGameType;
+}
+
 int Game::isPlayerTurn(Player *player) const
 {
     if(getTurn() == player->getColor())
@@ -99,7 +117,9 @@ int Game::isPlayerTurn(Player *player) const
 string Game::toString() const
 {
     stringstream out;
-    out << "GAME " << myID << endl;
+    out << "GAME " << myID << " ";
+    if(getFirstPlayer() != NULL)
+        out << getFirstPlayer()->getName() << endl;
     return out.str();
 }
 
@@ -172,6 +192,10 @@ void Game::calculateNextTurn()
         if(myBoard->getAllPossibleMovements(WHITE).size() != 0)
         {
             myTurn = WHITE;
+            if(getGameType() == 0)
+            {
+                this->addMovement(myFirstPlayer->play(myBoard), myFirstPlayer);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ class HumanPlayer : public Player
 public:
     HumanPlayer(int color, string name);
 
-    void play(Board *board);
+    string play(const Board * const board);
 };
 
 #endif // HUMANPLAYER_H
