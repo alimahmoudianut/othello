@@ -86,7 +86,10 @@ void ClientTerminal::request(string request)
         sprintf(msg, "MV %s", mv.c_str());
         mySocket->write(msg);
     }
-
+    else if(cmd == "MYGAMEBOARD")
+    {
+        mySocket->write("MYGAMEBOARD");
+    }
 }
 
 string ClientTerminal::getLastResponse() const

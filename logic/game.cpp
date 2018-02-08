@@ -76,6 +76,12 @@ void Game::setGameType(int gameType)
     }
 }
 
+void Game::updateBoard(string str)
+{
+    delete myBoard;
+    myBoard = new Board(str);
+}
+
 Board *Game::getBoard() const
 {
     return myBoard;

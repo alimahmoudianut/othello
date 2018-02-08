@@ -176,6 +176,11 @@ void ServerConnection::readyRead()
         else
             mySocket->write("NO GAME FOUND");
     }
+    else if(cmd == "MYGAMEBOARD")
+    {
+        string resp = findMyGame()->getBoard()->toStr();
+        mySocket->write(resp.c_str());
+    }
 }
 
 void ServerConnection::disconnected()

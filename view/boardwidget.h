@@ -5,7 +5,7 @@
 #include <QList>
 #include <logic/game.h>
 #include "network/clientterminal.h"
-
+#include <QTimer>
 
 
 class BoardWidget : public QWidget
@@ -22,6 +22,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 public slots:
+    void updateGameBoard();
 
 private:
     int getCellXPos(int row, int col) const;
@@ -39,6 +40,8 @@ private:
 
     int myCellWidth;
     int myCellHeight;
+
+    QTimer *myServerTimer;
 
     ClientTerminal * myTerminal;
 };

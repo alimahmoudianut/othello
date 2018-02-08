@@ -20,7 +20,8 @@ public:
     void setFirstPlayer(Player *firstPlayer);
     void setSecondPlayer(Player *secondPlayer);
     void setLastMovement(string mv, Player *player);
-    void setGameType(int gameType);
+    void setGameType(int gameType);\
+    void updateBoard(string str);
 
     Board *getBoard() const;
     Player *getFirstPlayer() const;

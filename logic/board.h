@@ -9,6 +9,8 @@ class Board
 {
 public:
     Board(unsigned int col = 8, unsigned int row = 8);
+    Board(std::string str, unsigned int row = 8, unsigned int col = 8);
+    ~Board();
 
     Cell *getCell(int r, int c) const;
     unsigned int getRowNum() const;
@@ -28,6 +30,7 @@ public:
     void setColNum(unsigned int n);
     int addMovement(int row, int col, int color);
 
+    std::string toStr() const;
     std::string toString() const;
     std::string deepToString() const;
 

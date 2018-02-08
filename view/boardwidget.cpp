@@ -40,6 +40,10 @@ BoardWidget::BoardWidget(QWidget *parent, Game *game, ClientTerminal *terminal)
     :BoardWidget(parent, game)
 {
     myTerminal = terminal;
+
+    myServerTimer = new QTimer(this);
+    connect(myServerTimer, SIGNAL(timeout()), this, SLOT(updateGameBoard()));
+    myServerTimer->start(100);
 }
 
 void BoardWidget::paintEvent(QPaintEvent *event)
@@ -94,6 +98,23 @@ void BoardWidget::mousePressEvent(QMouseEvent *event)
 
     cout << myGame->deepToString() << endl;
     update();
+}
+
+void BoardWidget::updateGameBoard()
+{
+    myTerminal->request("MYGAMEBOARD");
+
+    string res = myTerminal->getLastResponse();
+
+    if(res != "")
+    {
+        if(res.substr(0, 5) == "BOARD")
+        {
+            myGame->updateBoard(res);
+            update();
+        }
+    }
+
 }
 
 int BoardWidget::getCellXPos(int row, int col) const

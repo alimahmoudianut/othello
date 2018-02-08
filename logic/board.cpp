@@ -32,6 +32,54 @@ Board::Board(unsigned int col, unsigned int row)
     getCell(4, 4)->setPiece(pE5);
 }
 
+Board::Board(string str, unsigned int row, unsigned int col)
+{
+    // Initialize row and column numbers
+    setRowNum(row);
+    setColNum(col);
+
+    // Initialize board, create cells
+    for(unsigned int i = 0; i < getRowNum(); i++)
+    {
+        for(unsigned int j = 0; j < getColNum(); j++)
+        {
+            Cell *c = new Cell(i, j);
+            myCells.push_back(c);
+        }
+    }
+
+    // update board from string
+    stringstream ss(str);
+    string line;
+    int j = 0;
+    ss >> line;
+    while(ss >> line)
+    {
+        for(int i = 0; i < line.length(); i++)
+        {
+            if(line[i] == 'O')
+            {
+                Piece *p = new Piece(WHITE);
+                getCell(j, i)->setPiece(p);
+            }
+            else if(line[i] == 'X')
+            {
+                Piece *p = new Piece(BLACK);
+                getCell(j, i)->setPiece(p);
+            }
+        }
+        j++;
+    }
+}
+
+Board::~Board()
+{
+    for(unsigned int i = 0; i < myCells.size(); i++)
+    {
+        delete myCells[i];
+    }
+}
+
 Cell *Board::getCell(int r, int c) const
 {
     for(unsigned int i = 0; i < myCells.size(); i++)
@@ -235,6 +283,21 @@ int Board::addMovement(int row, int col, int color)
         return 0;
     }
     return -1;
+}
+
+string Board::toStr() const
+{
+    std::stringstream out;
+    out << "BOARD" << endl;
+    for(unsigned int i = 0; i < getRowNum(); i++)
+    {
+        for(unsigned int j = 0; j < getColNum(); j++)
+        {
+            out << getCell(i, j)->getPieceSign();
+        }
+        out << std::endl;
+    }
+    return out.str();
 }
 
 string Board::deepToString() const
